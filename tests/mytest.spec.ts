@@ -73,8 +73,10 @@ test('add item to cart after successful login', async ({ page }) => {
   await expect(page.locator('.shopping_cart_badge')).toHaveText('1');
 
   // Clean up: log out at the end, since this test also logs in successfully
+  // Clean up: log out at the end, since this test also logs in successfully
   await page.locator('#react-burger-menu-btn').click();
-  await page.getByText('Logout').waitFor({ state: 'visible' });
-  await page.getByText('Logout').click();
+  const logoutLink = page.locator('[data-test="logout-sidebar-link"]');
+  await logoutLink.waitFor({ state: 'visible', timeout: 10000 });
+  await logoutLink.click();
   await expect(page).toHaveURL('https://www.saucedemo.com/');
 });
